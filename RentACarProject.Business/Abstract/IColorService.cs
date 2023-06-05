@@ -1,5 +1,4 @@
-﻿using RentACarProject.Entities.Concrete;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace RentACarProject.Business.Abstract
 {
-    public interface ICarService
+    internal class IColorService
     {
-        List<Car> GetAll();
-        List<Car> GetByCar(int id);
     }
 }

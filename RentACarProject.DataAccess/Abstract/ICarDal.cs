@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace RentACarProject.DataAccess.Abstract
 {
-    public interface ICarDal
+    public interface ICarDal:IGenericDal<Car>
     {
-        List<Car> GetAll();
-        void Add(Car car);
-        void Delete(Car car);
-        void Update(Car car);
-        Car GetById(int id);
+  
     }
 }

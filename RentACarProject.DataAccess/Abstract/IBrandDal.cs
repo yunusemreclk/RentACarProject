@@ -5,11 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RentACarProject.Business.Abstract
+namespace RentACarProject.DataAccess.Abstract
 {
-    public interface ICarService
+    public interface IBrandDal:IGenericDal<Brand>
     {
-        List<Car> GetAll();
-        List<Car> GetByCar(int id);
     }
 }

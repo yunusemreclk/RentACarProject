@@ -22,5 +22,10 @@ namespace RentACarProject.Business.Concrete
         {
             return _carDal.GetAll();
         }
+
+        public List<Car> GetByCar(int id)
+        {
+         return _carDal.GetAll(x=>x.Id== id);
+        }
     }
 }
