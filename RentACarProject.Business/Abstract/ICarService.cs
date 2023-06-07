@@ -1,4 +1,5 @@
 ﻿using RentACarProject.Entities.Concrete;
+using RentACarProject.Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,8 @@ namespace RentACarProject.Business.Abstract
     {
         List<Car> GetAll();
         List<Car> GetByCar(int id);
+        List<CarDetailDto> GetCarDetails();
+        List<CarDto> GetCarDto();
+        List<CarDto2> GetCarDto2();
     }
 }

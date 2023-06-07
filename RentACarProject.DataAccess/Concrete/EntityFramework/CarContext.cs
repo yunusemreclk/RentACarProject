@@ -13,7 +13,7 @@ namespace RentACarProject.DataAccess.Concrete.EntityFramework
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=.; initial catalog = RentACarProject; integrated security = true");
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-K686IV6; initial catalog = RentACarProject; integrated security = true");
         }
         public DbSet<Car> Cars { get; set; }
         public DbSet<Brand> Brands { get; set; }

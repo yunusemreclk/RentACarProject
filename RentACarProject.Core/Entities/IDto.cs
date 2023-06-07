@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RentACarProject.Business.Abstract
+namespace RentACarProject.Core.Entities
 {
-    public interface IColorService
+   public interface IDto
     {
     }
 }

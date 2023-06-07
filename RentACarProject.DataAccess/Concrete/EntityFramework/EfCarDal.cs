@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RentACarProject.Core.DataAccess.EntityFramework;
 using RentACarProject.DataAccess.Abstract;
 using RentACarProject.Entities.Concrete;
+using RentACarProject.Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,51 +12,65 @@ using System.Threading.Tasks;
 
 namespace RentACarProject.DataAccess.Concrete.EntityFramework
 {
-    public class EfCarDal : ICarDal
+    public class EfCarDal : EfEntityRepositoryBase<Car, CarContext>, ICarDal
     {
-        public void Add(Car entity)
+        public List<CarDetailDto> GetCarDetails()
         {
             using (CarContext context=new CarContext())
             {
-                var addedCar = context.Entry(entity);
-                addedCar.State = EntityState.Added;
-                context.SaveChanges();
+                var result = from c in context.Cars
+                             join b in context.Brands
+                             on c.BrandId equals b.BrandId
+                             join co in context.Colors
+                             on c.ColorId equals co.ColorId
+                             select new CarDetailDto
+                             {
+                                 CarId = c.CarId,
+                                 BrandName = b.BrandName,
+                                 ColorName = co.ColorName,
+                                 ModelYear = c.ModelYear,
+                                 Description = c.Description,
+                                 DailyPrice = c.DailyPrice
+                             };
+                return result.ToList();
             }
         }
-
-        public void Delete(Car entity)
+       public List<CarDto> GetCarDto()
         {
-            using (CarContext context = new CarContext()) 
+            using (CarContext context=new CarContext())
             {
-                var deletedCar = context.Entry(entity);
-                deletedCar.State = EntityState.Deleted;
-                context.SaveChanges();
+                var result = from c in context.Cars
+                             join b in context.Brands
+                             on c.BrandId equals b.BrandId
+                             join co in context.Colors
+                             on c.ColorId equals co.ColorId
+                             select new CarDto
+                             {
+                                 CarId = c.CarId,
+                                 BrandName = b.BrandName,
+                                 ColorName = co.ColorName,
+                                 ModelYear = c.ModelYear
+                             };
+
+            return result.ToList();
             }
+            
         }
-
-        public Car Get(Expression<Func<Car, bool>> filter)
+        public  List<CarDto2> GetCarDto2()
         {
-            using (CarContext context=new CarContext()) 
+            using(CarContext context=new CarContext())
             {
-                return context.Set<Car>().SingleOrDefault(filter);
-            }
-        }
-
-        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
-        {
-            using (CarContext context=new CarContext()) 
-            {
-                return context.Set<Car>().Where(filter).ToList();
-            }
-        }
-
-        public void Update(Car entity)
-        {
-            using (CarContext context = new CarContext()) 
-            {
-                var updatedCar=context.Entry(entity);
-                updatedCar.State = EntityState.Modified;
-                context.SaveChanges();
+                var result = from c in context.Cars
+                             join b in context.Brands
+                             on c.BrandId equals b.BrandId
+                             select new CarDto2
+                             {
+                                 CarId = c.CarId,
+                                 BrandName = b.BrandName,
+                                 ModelYear= c.ModelYear,
+                                 Description = c.Description
+                             };
+                return result.ToList();
             }
         }
     }

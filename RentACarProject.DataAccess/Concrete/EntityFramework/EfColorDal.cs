@@ -1,4 +1,5 @@
-﻿using RentACarProject.DataAccess.Abstract;
+﻿using RentACarProject.Core.DataAccess.EntityFramework;
+using RentACarProject.DataAccess.Abstract;
 using RentACarProject.Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -9,31 +10,8 @@ using System.Threading.Tasks;
 
 namespace RentACarProject.DataAccess.Concrete.EntityFramework
 {
-    public class EfColorDal : IColorDal
+    public class EfColorDal :EfEntityRepositoryBase<Color,CarContext>, IColorDal
     {
-        public void Add(Color entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(Color entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Color Get(Expression<Func<Color, bool>> filter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Color> GetAll(Expression<Func<Color, bool>> filter = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Color entity)
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }

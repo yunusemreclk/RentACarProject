@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RentACarProject.Entities.Abstract
+namespace RentACarProject.Core.Entities
 {
     public interface IEntity
     {

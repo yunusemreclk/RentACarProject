@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RentACarProject.Business.Abstract
 {
-    internal class IBrandService
+   public class IBrandService
     {
     }
 }
