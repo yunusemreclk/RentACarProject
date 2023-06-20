@@ -1,4 +1,5 @@
-﻿using RentACarProject.Entities.Concrete;
+﻿using RentACarProject.Core.Utilities.Results;
+using RentACarProject.Entities.Concrete;
 using RentACarProject.Entities.DTOs;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,14 @@ namespace RentACarProject.Business.Abstract
 {
     public interface ICarService
     {
-        List<Car> GetAll();
-        List<Car> GetByCar(int id);
-        List<CarDetailDto> GetCarDetails();
-        List<CarDto> GetCarDto();
-        List<CarDto2> GetCarDto2();
+        IResult Add(Car car);
+        IResult Delete(Car car);
+        IResult Update(Car car);
+
+        IDataResult <List<Car>> GetAll();
+        IDataResult <List<Car>> GetByCar(int id);
+        IDataResult <List<CarDetailDto>> GetCarDetails();
+        IDataResult <List<CarDto>> GetCarDto();
+        IDataResult <List<CarDto2>> GetCarDto2();
     }
 }

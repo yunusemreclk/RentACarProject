@@ -14,5 +14,6 @@ namespace RentACarProject.DataAccess.Abstract
         List<CarDetailDto> GetCarDetails();
         List<CarDto> GetCarDto();
         List<CarDto2> GetCarDto2();
+
     }
 }

@@ -1,4 +1,6 @@
 ﻿using RentACarProject.Business.Abstract;
+using RentACarProject.Business.Constants;
+using RentACarProject.Core.Utilities.Results;
 using RentACarProject.DataAccess.Abstract;
 using RentACarProject.Entities.Concrete;
 using RentACarProject.Entities.DTOs;
@@ -19,29 +21,57 @@ namespace RentACarProject.Business.Concrete
             _carDal = carDal;
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return _carDal.GetCarDetails();
+            if (DateTime.Now.Hour==23)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(),Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<CarDetailDto>>( _carDal.GetCarDetails(),Messages.CarListed);
         }
 
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
-            return _carDal.GetAll();
+            if (DateTime.Now.Hour==20)
+            {
+                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(),Messages.CarListed);
         }
 
-        public List<Car> GetByCar(int id)
+        public IDataResult<List<Car>> GetByCar(int id)
         {
-         return _carDal.GetAll(x=>x.CarId== id);
+         
+         return new SuccessDataResult<List<Car>>( _carDal.GetAll(x=>x.CarId== id),Messages.CarListed);
         }
 
-        public List<CarDto> GetCarDto()
+        public IDataResult<List<CarDto>> GetCarDto()
         {
-            return _carDal.GetCarDto();
+            return new SuccessDataResult<List<CarDto>>( _carDal.GetCarDto());
         }
 
-        public List<CarDto2> GetCarDto2()
+        public IDataResult<List<CarDto2>> GetCarDto2()
         {
-            return _carDal.GetCarDto2();
+            return new SuccessDataResult<List<CarDto2>>(_carDal.GetCarDto2());
+        }
+
+        public IResult Add(Car car)
+        {
+        
+            _carDal.Add(car);
+            return new SuccessResult("Araç eklendi");
+        }
+
+        public IResult Delete(Car car)
+        {
+            _carDal.Delete(car);
+            return new SuccessResult("Araç silindi");
+        }
+
+        public IResult Update(Car car)
+        {
+            _carDal.Update(car);
+            return new SuccessResult("Araç güncellendi");
         }
     }
 }
