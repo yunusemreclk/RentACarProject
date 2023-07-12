@@ -1,5 +1,8 @@
-﻿using RentACarProject.Business.Abstract;
+﻿using FluentValidation;
+using RentACarProject.Business.Abstract;
 using RentACarProject.Business.Constants;
+using RentACarProject.Business.ValidationRules.FluentValidation;
+using RentACarProject.Core.Aspects.Autofac.Validation;
 using RentACarProject.Core.Utilities.Results;
 using RentACarProject.DataAccess.Abstract;
 using RentACarProject.Entities.Concrete;
@@ -39,7 +42,7 @@ namespace RentACarProject.Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(),Messages.CarListed);
         }
 
-        public IDataResult<List<Car>> GetByCar(int id)
+        public IDataResult<List<Car>> GetByCarId(int id)
         {
          
          return new SuccessDataResult<List<Car>>( _carDal.GetAll(x=>x.CarId== id),Messages.CarListed);
@@ -54,9 +57,16 @@ namespace RentACarProject.Business.Concrete
         {
             return new SuccessDataResult<List<CarDto2>>(_carDal.GetCarDto2());
         }
-
-        public IResult Add(Car car)
+        [ValidationAspect(typeof(CarValidator))]
+        public IResult Add(Car car) 
         {
+            //var context = new ValidationContext<Car>(car);
+            //CarValidator carValidator = new CarValidator();
+            //var result = carValidator.Validate(context);
+            //if (!result.IsValid)
+            //{
+            //    throw new ValidationException(result.Errors);
+            //}
         
             _carDal.Add(car);
             return new SuccessResult("Araç eklendi");

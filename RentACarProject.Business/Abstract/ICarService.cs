@@ -16,7 +16,7 @@ namespace RentACarProject.Business.Abstract
         IResult Update(Car car);
 
         IDataResult <List<Car>> GetAll();
-        IDataResult <List<Car>> GetByCar(int id);
+        IDataResult <List<Car>> GetByCarId(int id);
         IDataResult <List<CarDetailDto>> GetCarDetails();
         IDataResult <List<CarDto>> GetCarDto();
         IDataResult <List<CarDto2>> GetCarDto2();
