@@ -3,6 +3,7 @@ using RentACarProject.Business.Abstract;
 using RentACarProject.Business.Constants;
 using RentACarProject.Business.ValidationRules.FluentValidation;
 using RentACarProject.Core.Aspects.Autofac.Validation;
+using RentACarProject.Core.Utilities.Business;
 using RentACarProject.Core.Utilities.Results;
 using RentACarProject.DataAccess.Abstract;
 using RentACarProject.Entities.Concrete;
@@ -18,10 +19,12 @@ namespace RentACarProject.Business.Concrete
     public class CarManager : ICarService
     {
         private readonly ICarDal _carDal;
+        private readonly IBrandService _brandService;
 
-        public CarManager(ICarDal carDal)
+        public CarManager(ICarDal carDal,IBrandService brandService)
         {
             _carDal = carDal;
+            _brandService = brandService;
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
@@ -67,7 +70,9 @@ namespace RentACarProject.Business.Concrete
             //{
             //    throw new ValidationException(result.Errors);
             //}
-        
+
+            IResult result = BusinessRules.Run(
+                CheckIfBrandLimitedExceded());
             _carDal.Add(car);
             return new SuccessResult("Araç eklendi");
         }
@@ -83,5 +88,15 @@ namespace RentACarProject.Business.Concrete
             _carDal.Update(car);
             return new SuccessResult("Araç güncellendi");
         }
+        private IResult CheckIfBrandLimitedExceded()
+        {
+            var result = _brandService.GetAll();
+            if(result.Data.Count>15)
+            {
+                return new ErrorResult(Messages.BrandLimitExceded);
+            }
+            return new SuccessResult();
+        }
+      
     }
 }
