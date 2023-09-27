@@ -5,6 +5,7 @@ using RentACarProject.Business.Abstract;
 using RentACarProject.Business.Concrete;
 using RentACarProject.Core.Utilities.Helpers.FileHelp;
 using RentACarProject.Core.Utilities.Interceptors;
+using RentACarProject.Core.Utilities.Security.Jwt;
 using RentACarProject.DataAccess.Abstract;
 using RentACarProject.DataAccess.Concrete.EntityFramework;
 using RentACarProject.DataAccess.Concrete.InMemory;
@@ -28,7 +29,19 @@ namespace RentACarProject.Business.DependencyResolvers.Autofac
 
             builder.RegisterType<FileHelperManager>().As<IFileHelper>().SingleInstance();
 
+            builder.RegisterType<BrandManager>().As<IBrandService>().SingleInstance();
+            builder.RegisterType<EfBrandDal>().As<IBrandDal>().SingleInstance();
 
+            builder.RegisterType<ColorManager>().As<IColorService>().SingleInstance();
+            builder.RegisterType<EfColorDal>().As<IColorDal>().SingleInstance();
+
+            builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
+            builder.RegisterType<EfUserDal>().As<IUserDal>().SingleInstance();
+
+            builder.RegisterType<AuthManager>().As<IAuthService>().SingleInstance();
+            builder.RegisterType<JwtHelper>().As<ITokenHelper>().SingleInstance();
+
+               
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
