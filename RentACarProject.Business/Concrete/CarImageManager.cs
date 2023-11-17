@@ -1,17 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using RentACarProject.Business.Abstract;
+using RentACarProject.Business.BusinessAspects.Autofac;
 using RentACarProject.Business.Constants;
 using RentACarProject.Core.Utilities.Business;
 using RentACarProject.Core.Utilities.Helpers.FileHelp;
 using RentACarProject.Core.Utilities.Results;
 using RentACarProject.DataAccess.Abstract;
 using RentACarProject.Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace RentACarProject.Business.Concrete
@@ -25,6 +20,7 @@ namespace RentACarProject.Business.Concrete
             _carImageDal = carImageDal;
             _fileHelper = fileHelper;
         }
+        [SecuredOperation("car.imageAdd,admin")]
         public IResult Add(IFormFile file, CarImage carImage)
         {
             IResult result = BusinessRules.Run(
@@ -37,7 +33,7 @@ namespace RentACarProject.Business.Concrete
             return new SuccessResult(Messages.CarImagesAdded); 
 
         }
-
+        [SecuredOperation("car.imageDelete,admin")]
         public IResult Delete(CarImage carImage)
         {
             _fileHelper.Delete(PathConstants.ImagesPath + carImage.ImagePath);
@@ -68,7 +64,7 @@ namespace RentACarProject.Business.Concrete
             return new SuccessDataResult<List<CarImage>>(carImage);
 
         }
-
+        [SecuredOperation("car.imageUpdate,admin")]
         public IResult Update(IFormFile file, CarImage carImage)
         {
             _fileHelper.Update(file, PathConstants.ImagesPath + carImage.ImagePath,carImage.ImagePath);

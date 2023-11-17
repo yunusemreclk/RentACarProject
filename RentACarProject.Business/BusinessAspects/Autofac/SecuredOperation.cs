@@ -5,11 +5,6 @@ using RentACarProject.Business.Constants;
 using RentACarProject.Core.Extensions;
 using RentACarProject.Core.Utilities.Interceptors;
 using RentACarProject.Core.Utilities.IoC;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RentACarProject.Business.BusinessAspects.Autofac
 {

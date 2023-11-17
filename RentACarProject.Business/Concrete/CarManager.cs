@@ -1,18 +1,15 @@
-﻿using FluentValidation;
-using RentACarProject.Business.Abstract;
+﻿using RentACarProject.Business.Abstract;
+using RentACarProject.Business.BusinessAspects.Autofac;
 using RentACarProject.Business.Constants;
 using RentACarProject.Business.ValidationRules.FluentValidation;
+using RentACarProject.Core.Aspects.Autofac.Caching;
+using RentACarProject.Core.Aspects.Autofac.Performance;
 using RentACarProject.Core.Aspects.Autofac.Validation;
 using RentACarProject.Core.Utilities.Business;
 using RentACarProject.Core.Utilities.Results;
 using RentACarProject.DataAccess.Abstract;
 using RentACarProject.Entities.Concrete;
 using RentACarProject.Entities.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RentACarProject.Business.Concrete
 {
@@ -20,6 +17,7 @@ namespace RentACarProject.Business.Concrete
     {
         private readonly ICarDal _carDal;
         private readonly IBrandService _brandService;
+
 
         public CarManager(ICarDal carDal,IBrandService brandService)
         {
@@ -36,6 +34,8 @@ namespace RentACarProject.Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>( _carDal.GetCarDetails(),Messages.CarListed);
         }
 
+        [CacheAspect]
+        [PerformanceAspect(5)]
         public IDataResult<List<Car>> GetAll()
         {
             if (DateTime.Now.Hour==20)
@@ -60,6 +60,7 @@ namespace RentACarProject.Business.Concrete
         {
             return new SuccessDataResult<List<CarDto2>>(_carDal.GetCarDto2());
         }
+        [SecuredOperation("car.Add,admin")]
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car) 
         {
@@ -67,6 +68,7 @@ namespace RentACarProject.Business.Concrete
             //CarValidator carValidator = new CarValidator();
             //var result = carValidator.Validate(context);
             //if (!result.IsValid)
+            //{
             //{
             //    throw new ValidationException(result.Errors);
             //}
@@ -76,13 +78,13 @@ namespace RentACarProject.Business.Concrete
             _carDal.Add(car);
             return new SuccessResult("Araç eklendi");
         }
-
+        [SecuredOperation("car.delete,admin")]
         public IResult Delete(Car car)
         {
             _carDal.Delete(car);
             return new SuccessResult("Araç silindi");
         }
-
+        [SecuredOperation("car.Update,admin")]
         public IResult Update(Car car)
         {
             _carDal.Update(car);
@@ -97,6 +99,20 @@ namespace RentACarProject.Business.Concrete
             }
             return new SuccessResult();
         }
-      
+
+        public IResult AddTransactionalTest(Car car)
+        {
+            Add(car);
+            if (car.DailyPrice < 10)
+            {
+                throw new Exception("");
+            }
+            Add(car);
+
+            return null;
+        }
     }
+
+
 }
+

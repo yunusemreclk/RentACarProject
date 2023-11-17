@@ -1,11 +1,6 @@
 ﻿using RentACarProject.Business.Abstract;
 using RentACarProject.Core.Entities.Concrete;
 using RentACarProject.DataAccess.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RentACarProject.Business.Concrete
 {
